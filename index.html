@@ -258,98 +258,122 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Handling Forms, Storage, Admin & Owner Control -->
-    <script>
-        const registerModal = document.getElementById('registerModal');
-        const loginModal = document.getElementById('loginModal');
-        const adminAuthModal = document.getElementById('adminAuthModal');
-        const adminDashboardModal = document.getElementById('adminDashboardModal');
-        const postProduceModal = document.getElementById('postProduceModal');
+   <!-- JavaScript for Handling Forms, Storage, Admin & Owner Control -->
+<script>
+    const registerModal = document.getElementById('registerModal');
+    const loginModal = document.getElementById('loginModal');
+    const adminAuthModal = document.getElementById('adminAuthModal');
+    const adminDashboardModal = document.getElementById('adminDashboardModal');
+    const postProduceModal = document.getElementById('postProduceModal');
 
-        const openRegisterBtn = document.getElementById('openRegisterModal');
-        const openLoginBtn = document.getElementById('openLoginModal');
-        const openAdminModal = document.getElementById('openAdminModal');
+    const openRegisterBtn = document.getElementById('openRegisterModal');
+    const openLoginBtn = document.getElementById('openLoginModal');
+    const openAdminModal = document.getElementById('openAdminModal');
 
-        const closeRegisterBtn = document.getElementById('closeRegisterModal');
-        const closeLoginBtn = document.getElementById('closeLoginModal');
-        const closeAdminAuth = document.getElementById('closeAdminAuth');
-        const closeAdminDashboard = document.getElementById('closeAdminDashboard');
-        const closePostProduceModal = document.getElementById('closePostProduceModal');
+    const closeRegisterBtn = document.getElementById('closeRegisterModal');
+    const closeLoginBtn = document.getElementById('closeLoginModal');
+    const closeAdminAuth = document.getElementById('closeAdminAuth');
+    const closeAdminDashboard = document.getElementById('closeAdminDashboard');
+    const closePostProduceModal = document.getElementById('closePostProduceModal');
 
-        const switchToLogin = document.getElementById('switchToLogin');
-        const switchToRegister = document.getElementById('switchToRegister');
+    const switchToLogin = document.getElementById('switchToLogin');
+    const switchToRegister = document.getElementById('switchToRegister');
 
-        // Check Login Status & Visitor Counter on Page Load
-        window.addEventListener('DOMContentLoaded', () => {
-            trackVisitor();
-            checkUserSession();
-            loadCustomProducts();
-        });
+    // Helper functions to open/close modals safely with scroll locking
+    function showModal(modal) {
+        if (!modal) return;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Stop background scroll on mobile
+    }
 
-        // Visitor & Usage Counter Logic
-        function trackVisitor() {
-            let views = localStorage.getItem('farmer_visitor_count');
-            if (!views) {
-                views = 1250; // ចំនួនเริ่มต้น
-            } else {
-                views = parseInt(views) + 1;
-            }
-            localStorage.setItem('farmer_visitor_count', views);
-            
-            document.getElementById('visitorCount').innerText = views;
-            const adminVisElem = document.getElementById('adminVisitorCount');
-            if(adminVisElem) adminVisElem.innerText = views;
+    function hideModal(modal) {
+        if (!modal) return;
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scroll
+    }
 
-            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
-            const adminUsrElem = document.getElementById('adminUserCount');
-            if(adminUsrElem) adminUsrElem.innerText = records.length;
+    // Check Login Status & Visitor Counter on Page Load
+    window.addEventListener('DOMContentLoaded', () => {
+        trackVisitor();
+        checkUserSession();
+        loadCustomProducts();
+    });
+
+    // Visitor & Usage Counter Logic
+    function trackVisitor() {
+        let views = localStorage.getItem('farmer_visitor_count');
+        if (!views) {
+            views = 1250;
+        } else {
+            views = parseInt(views) + 1;
         }
+        localStorage.setItem('farmer_visitor_count', views);
+        
+        const visitorElem = document.getElementById('visitorCount');
+        if (visitorElem) visitorElem.innerText = views;
 
-        // Helper to check if currently logged in as Admin
-        function isAdminLoggedIn() {
-            return localStorage.getItem('farmer_is_admin') === 'true';
-        }
+        const adminVisElem = document.getElementById('adminVisitorCount');
+        if (adminVisElem) adminVisElem.innerText = views;
 
-        // Modal Open/Close Controls
-        if(openRegisterBtn) openRegisterBtn.addEventListener('click', () => registerModal.style.display = 'flex');
-        if(openLoginBtn) openLoginBtn.addEventListener('click', () => loginModal.style.display = 'flex');
+        let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
+        const adminUsrElem = document.getElementById('adminUserCount');
+        if (adminUsrElem) adminUsrElem.innerText = records.length;
+    }
+
+    // Helper to check if currently logged in as Admin
+    function isAdminLoggedIn() {
+        return localStorage.getItem('farmer_is_admin') === 'true';
+    }
+
+    // Modal Open/Close Controls
+    if (openRegisterBtn) openRegisterBtn.addEventListener('click', () => showModal(registerModal));
+    if (openLoginBtn) openLoginBtn.addEventListener('click', () => showModal(loginModal));
+    if (openAdminModal) {
         openAdminModal.addEventListener('click', () => {
             if (isAdminLoggedIn()) {
                 loadAdminDashboard();
-                adminDashboardModal.style.display = 'flex';
+                showModal(adminDashboardModal);
             } else {
-                adminAuthModal.style.display = 'flex';
+                showModal(adminAuthModal);
             }
         });
+    }
 
-        closeRegisterBtn.addEventListener('click', () => registerModal.style.display = 'none');
-        closeLoginBtn.addEventListener('click', () => loginModal.style.display = 'none');
-        closeAdminAuth.addEventListener('click', () => adminAuthModal.style.display = 'none');
-        closeAdminDashboard.addEventListener('click', () => adminDashboardModal.style.display = 'none');
-        closePostProduceModal.addEventListener('click', () => postProduceModal.style.display = 'none');
+    if (closeRegisterBtn) closeRegisterBtn.addEventListener('click', () => hideModal(registerModal));
+    if (closeLoginBtn) closeLoginBtn.addEventListener('click', () => hideModal(loginModal));
+    if (closeAdminAuth) closeAdminAuth.addEventListener('click', () => hideModal(adminAuthModal));
+    if (closeAdminDashboard) closeAdminDashboard.addEventListener('click', () => hideModal(adminDashboardModal));
+    if (closePostProduceModal) closePostProduceModal.addEventListener('click', () => hideModal(postProduceModal));
 
+    if (switchToLogin) {
         switchToLogin.addEventListener('click', (e) => {
             e.preventDefault();
-            registerModal.style.display = 'none';
-            loginModal.style.display = 'flex';
+            hideModal(registerModal);
+            showModal(loginModal);
         });
+    }
 
+    if (switchToRegister) {
         switchToRegister.addEventListener('click', (e) => {
             e.preventDefault();
-            loginModal.style.display = 'none';
-            registerModal.style.display = 'flex';
+            hideModal(loginModal);
+            showModal(registerModal);
         });
+    }
 
-        window.addEventListener('click', (e) => {
-            if (e.target === registerModal) registerModal.style.display = 'none';
-            if (e.target === loginModal) loginModal.style.display = 'none';
-            if (e.target === adminAuthModal) adminAuthModal.style.display = 'none';
-            if (e.target === adminDashboardModal) adminDashboardModal.style.display = 'none';
-            if (e.target === postProduceModal) postProduceModal.style.display = 'none';
-        });
+    // Modal Outside Click / Touch backdrop close
+    window.addEventListener('click', (e) => {
+        if (e.target === registerModal) hideModal(registerModal);
+        if (e.target === loginModal) hideModal(loginModal);
+        if (e.target === adminAuthModal) hideModal(adminAuthModal);
+        if (e.target === adminDashboardModal) hideModal(adminDashboardModal);
+        if (e.target === postProduceModal) hideModal(postProduceModal);
+    });
 
-        // Save Registration Data to LocalStorage
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+    // Save Registration Data to LocalStorage
+    const regForm = document.getElementById('registerForm');
+    if (regForm) {
+        regForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const fullName = document.getElementById('regFullName').value;
             const email = document.getElementById('regEmail').value;
@@ -366,13 +390,16 @@
             
             alert('ចុះឈ្មោះបានជោគជ័យ!');
             this.reset();
-            registerModal.style.display = 'none';
+            hideModal(registerModal);
             checkUserSession();
             loadCustomProducts();
         });
+    }
 
-        // Save Login Data to LocalStorage
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+    // Save Login Data to LocalStorage
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             
@@ -388,69 +415,88 @@
             
             alert('ចូលគណនីបានជោគជ័យ!');
             this.reset();
-            loginModal.style.display = 'none';
+            hideModal(loginModal);
             checkUserSession();
             loadCustomProducts();
         });
+    }
 
-        function saveToStorage(newData) {
-            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
-            records.push(newData);
-            localStorage.setItem('farmer_furthur_users', JSON.stringify(records));
-        }
+    function saveToStorage(newData) {
+        let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
+        records.push(newData);
+        localStorage.setItem('farmer_furthur_users', JSON.stringify(records));
+    }
 
-        // Check Session and Update Header View
-        function checkUserSession() {
-            const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
-            const headerActions = document.getElementById('headerActions');
-            const isAdmin = isAdminLoggedIn();
+    // Check Session and Update Header View
+    function checkUserSession() {
+        const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
+        const headerActions = document.getElementById('headerActions');
+        const isAdmin = isAdminLoggedIn();
 
-            let adminLabel = isAdmin ? '<span style="color: #e67e22; font-weight: bold;">(Admin)</span>' : '';
+        if (!headerActions) return;
 
-            if (currentUser || isAdmin) {
-                let displayName = currentUser ? currentUser.name : 'អ្នកគ្រប់គ្រង';
-                headerActions.innerHTML = `
-                    <span style="font-weight: 600; color: #27ae60;"><i class="fa-solid fa-user-check"></i> ${displayName} ${adminLabel}</span>
-                    <button class="btn-green" id="openPostModalBtn"><i class="fa-solid fa-plus"></i> បញ្ចូលកសិផល</button>
-                    <button class="btn-danger" id="logoutBtn" style="background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;"><i class="fa-solid fa-right-from-bracket"></i> ចាកចេញ</button>
-                    <button class="btn-admin" id="openAdminModalLoggedIn"><i class="fa-solid fa-lock"></i> Admin Panel</button>
-                `;
+        let adminLabel = isAdmin ? '<span style="color: #e67e22; font-weight: bold;">(Admin)</span>' : '';
 
-                document.getElementById('openPostModalBtn').addEventListener('click', () => {
-                    document.getElementById('postProduceForm').reset();
+        if (currentUser || isAdmin) {
+            let displayName = currentUser ? currentUser.name : 'អ្នកគ្រប់គ្រង';
+            headerActions.innerHTML = `
+                <div class="header-user-wrapper">
+                    <span class="user-name-tag"><i class="fa-solid fa-user-check"></i> ${displayName} ${adminLabel}</span>
+                    <div class="header-btn-group">
+                        <button class="btn-green" id="openPostModalBtn"><i class="fa-solid fa-plus"></i> បញ្ចូលកសិផល</button>
+                        <button class="btn-admin" id="openAdminModalLoggedIn"><i class="fa-solid fa-lock"></i> Admin</button>
+                        <button class="btn-danger" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> ចាកចេញ</button>
+                    </div>
+                </div>
+            `;
+
+            const openPostBtn = document.getElementById('openPostModalBtn');
+            if (openPostBtn) {
+                openPostBtn.addEventListener('click', () => {
+                    const postForm = document.getElementById('postProduceForm');
+                    if (postForm) postForm.reset();
                     document.getElementById('editProduceId').value = '';
                     document.getElementById('produceModalTitle').innerHTML = '<i class="fa-solid fa-camera"></i> បញ្ចូលរូបភាព និងលក់កសិផល';
                     document.getElementById('saveProduceBtn').innerText = 'ដាក់លក់ឥឡូវនេះ';
-                    postProduceModal.style.display = 'flex';
+                    showModal(postProduceModal);
                 });
+            }
 
-                document.getElementById('logoutBtn').addEventListener('click', () => {
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
                     localStorage.removeItem('farmer_current_user');
                     localStorage.removeItem('farmer_is_admin');
                     window.location.reload();
                 });
+            }
 
-                document.getElementById('openAdminModalLoggedIn').addEventListener('click', () => {
+            const openAdminModalLoggedIn = document.getElementById('openAdminModalLoggedIn');
+            if (openAdminModalLoggedIn) {
+                openAdminModalLoggedIn.addEventListener('click', () => {
                     if (isAdminLoggedIn()) {
                         loadAdminDashboard();
-                        adminDashboardModal.style.display = 'flex';
+                        showModal(adminDashboardModal);
                     } else {
-                        adminAuthModal.style.display = 'flex';
+                        showModal(adminAuthModal);
                     }
                 });
             }
         }
+    }
 
-        // Post or Update Custom Produce (Owner / Admin handler)
-        document.getElementById('postProduceForm').addEventListener('submit', function(e) {
+    // Post or Update Custom Produce
+    const postProduceForm = document.getElementById('postProduceForm');
+    if (postProduceForm) {
+        postProduceForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
             const isAdmin = isAdminLoggedIn();
 
             if (!currentUser && !isAdmin) {
                 alert('សូមចូលគណនីមុនពេលផុសកសិផល!');
-                postProduceModal.style.display = 'none';
-                loginModal.style.display = 'flex';
+                hideModal(postProduceModal);
+                showModal(loginModal);
                 return;
             }
 
@@ -485,148 +531,156 @@
 
             localStorage.setItem('farmer_custom_products', JSON.stringify(products));
             this.reset();
-            postProduceModal.style.display = 'none';
+            hideModal(postProduceModal);
             loadCustomProducts();
         });
+    }
 
-        // Load Products to Marketplace with Owner/Admin Editing Capabilities
-        function loadCustomProducts() {
-            const container = document.getElementById('produceContainer');
-            container.innerHTML = ''; // Clear container
+    // Load Products to Marketplace
+    function loadCustomProducts() {
+        const container = document.getElementById('produceContainer');
+        if (!container) return;
+        container.innerHTML = '';
 
-            // Default items list + Custom items list
-            const defaultProducts = [
-                { id: 'd1', title: 'បន្លែចម្រុះគ្មានជាតិគីមី', farmer: 'កសិដ្ឋាន សុខ សុខុម (បាត់ដំបង)', price: '$1.20 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
-                { id: 'd2', title: 'ការ៉ុត', farmer: 'សហគមន៍កសិកម្ម សៀមរាប', price: '$2.50 / កញ្ចប់', imgUrl: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
-                { id: 'd3', title: 'ផ្លែប៉ោមស្រស់', farmer: 'កសិដ្ឋាន កំពង់ស្ពឺ', price: '$1.80 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
-                { id: 'd4', title: 'ពោតផ្អែមស្រស់ៗ', farmer: 'កសិដ្ឋាន កំពង់ចាម', price: '$1.00 / ៣ផ្លែ', imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7uAmbVGgaZSxouvGF32xpKHU8zMNPszkIYg&s', ownerEmail: 'admin@system.com' }
-            ];
+        const defaultProducts = [
+            { id: 'd1', title: 'បន្លែចម្រុះគ្មានជាតិគីមី', farmer: 'កសិដ្ឋាន សុខ សុខុម (បាត់ដំបង)', price: '$1.20 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
+            { id: 'd2', title: 'ការ៉ុត', farmer: 'សហគមន៍កសិកម្ម សៀមរាប', price: '$2.50 / កញ្ចប់', imgUrl: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
+            { id: 'd3', title: 'ផ្លែប៉ោមស្រស់', farmer: 'កសិដ្ឋាន កំពង់ស្ពឺ', price: '$1.80 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
+            { id: 'd4', title: 'ពោតផ្អែមស្រស់ៗ', farmer: 'កសិដ្ឋាន កំពង់ចាម', price: '$1.00 / ៣ផ្លែ', imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7uAmbVGgaZSxouvGF32xpKHU8zMNPszkIYg&s', ownerEmail: 'admin@system.com' }
+        ];
 
-            let customProducts = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
-            let allProducts = [...customProducts, ...defaultProducts];
+        let customProducts = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
+        let allProducts = [...customProducts, ...defaultProducts];
 
-            const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
-            const isAdmin = isAdminLoggedIn();
+        const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
+        const isAdmin = isAdminLoggedIn();
 
-            allProducts.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'produce-card';
-                
-                let actionBtnsHtml = '';
-                // Allow Owner or Admin to Edit/Delete items
-                if ((currentUser && currentUser.email === item.ownerEmail) || isAdmin) {
-                    actionBtnsHtml = `
-                        <div style="margin-top: 8px; display: flex; gap: 5px;">
-                            <button onclick="editProduct('${item.id}')" style="background-color: #f39c12; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;"><i class="fa-solid fa-pen"></i> កែប្រែ</button>
-                            <button onclick="deleteProduct('${item.id}')" style="background-color: #e74c3c; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;"><i class="fa-solid fa-trash"></i> លុប</button>
-                        </div>
-                    `;
-                }
-
-                card.innerHTML = `
-                    <img src="${item.imgUrl}" class="produce-img" alt="Produce">
-                    <div class="produce-info">
-                        <div class="produce-name">${item.title}</div>
-                        <div class="farmer-name">${item.farmer}</div>
-                        <div class="price-row">
-                            <span class="produce-price">${item.price}</span>
-                            <button class="order-btn">កុម្ម៉ង់ទិញ</button>
-                        </div>
-                        ${actionBtnsHtml}
+        allProducts.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'produce-card';
+            
+            let actionBtnsHtml = '';
+            if ((currentUser && currentUser.email === item.ownerEmail) || isAdmin) {
+                actionBtnsHtml = `
+                    <div style="margin-top: 8px; display: flex; gap: 5px;">
+                        <button onclick="editProduct('${item.id}')" style="background-color: #f39c12; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; flex: 1;"><i class="fa-solid fa-pen"></i> កែប្រែ</button>
+                        <button onclick="deleteProduct('${item.id}')" style="background-color: #e74c3c; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; flex: 1;"><i class="fa-solid fa-trash"></i> លុប</button>
                     </div>
                 `;
-                container.appendChild(card);
-            });
+            }
+
+            card.innerHTML = `
+                <img src="${item.imgUrl}" class="produce-img" alt="Produce">
+                <div class="produce-info">
+                    <div class="produce-name">${item.title}</div>
+                    <div class="farmer-name">${item.farmer}</div>
+                    <div class="price-row">
+                        <span class="produce-price">${item.price}</span>
+                        <button class="order-btn">កុម្ម៉ង់ទិញ</button>
+                    </div>
+                    ${actionBtnsHtml}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    window.editProduct = function(id) {
+        let products = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
+        const item = products.find(p => p.id === id);
+        if (item) {
+            document.getElementById('editProduceId').value = item.id;
+            document.getElementById('produceTitle').value = item.title;
+            document.getElementById('produceFarmer').value = item.farmer;
+            document.getElementById('producePrice').value = item.price;
+            document.getElementById('produceImgUrl').value = item.imgUrl;
+
+            document.getElementById('produceModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> កែប្រែព័ត៌មានកសិផល';
+            document.getElementById('saveProduceBtn').innerText = 'រក្សាទុកការកែប្រែ';
+            showModal(postProduceModal);
+        } else {
+            alert('មុខទំនិញដើម (Default) មិនអាចកែប្រែបានទេ ប៉ុន្តែលោកអ្នកអាចផុសទំនិញថ្មីបាន!');
         }
+    };
 
-        window.editProduct = function(id) {
+    window.deleteProduct = function(id) {
+        if (confirm('តើអ្នកពិតជាចង់លុបកសិផលនេះមែនទេ?')) {
             let products = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
-            const item = products.find(p => p.id === id);
-            if (item) {
-                document.getElementById('editProduceId').value = item.id;
-                document.getElementById('produceTitle').value = item.title;
-                document.getElementById('produceFarmer').value = item.farmer;
-                document.getElementById('producePrice').value = item.price;
-                document.getElementById('produceImgUrl').value = item.imgUrl;
+            products = products.filter(item => item.id !== id);
+            localStorage.setItem('farmer_custom_products', JSON.stringify(products));
+            loadCustomProducts();
+        }
+    };
 
-                document.getElementById('produceModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> កែប្រែព័ត៌មានកសិផល';
-                document.getElementById('saveProduceBtn').innerText = 'រក្សាទុកការកែប្រែ';
-                postProduceModal.style.display = 'flex';
-            } else {
-                alert('មុខទំនិញដើម (Default) មិនអាចកែប្រែបានទេ ប៉ុន្តែលោកអ្នកអាចផុសទំនិញថ្មីបាន!');
-            }
-        };
-
-        window.deleteProduct = function(id) {
-            if (confirm('តើអ្នកពិតជាចង់លុបកសិផលនេះមែនទេ?')) {
-                let products = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
-                products = products.filter(item => item.id !== id);
-                localStorage.setItem('farmer_custom_products', JSON.stringify(products));
-                loadCustomProducts();
-            }
-        };
-
-        // Admin PIN Verification
-        document.getElementById('adminAuthForm').addEventListener('submit', function(e) {
+    // Admin PIN Verification
+    const adminAuthForm = document.getElementById('adminAuthForm');
+    if (adminAuthForm) {
+        adminAuthForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const enteredPin = document.getElementById('adminPin').value;
 
             if (enteredPin === '231229') {
                 localStorage.setItem('farmer_is_admin', 'true');
-                adminAuthModal.style.display = 'none';
+                hideModal(adminAuthModal);
                 document.getElementById('adminPin').value = '';
                 checkUserSession();
                 loadAdminDashboard();
-                adminDashboardModal.style.display = 'flex';
+                showModal(adminDashboardModal);
             } else {
                 alert('លេខសម្ងាត់មិនត្រឹមត្រូវ! សូមព្យាយាមម្តងទៀត។');
             }
         });
+    }
 
-        // Load Data into Admin Table & Statistics
-        function loadAdminDashboard() {
-            const tbody = document.getElementById('userDataTableBody');
-            tbody.innerHTML = '';
-            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
+    // Load Data into Admin Table & Statistics
+    function loadAdminDashboard() {
+        const tbody = document.getElementById('userDataTableBody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
 
-            document.getElementById('adminVisitorCount').innerText = localStorage.getItem('farmer_visitor_count') || 0;
-            document.getElementById('adminUserCount').innerText = records.length;
+        const adminVisElem = document.getElementById('adminVisitorCount');
+        if (adminVisElem) adminVisElem.innerText = localStorage.getItem('farmer_visitor_count') || 0;
 
-            if (records.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #7f8c8d; padding: 15px;">គ្មានទិន្នន័យអ្នកប្រើប្រាស់នៅឡើយទេ</td></tr>`;
-                return;
-            }
+        const adminUsrElem = document.getElementById('adminUserCount');
+        if (adminUsrElem) adminUsrElem.innerText = records.length;
 
-            records.forEach((item, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="padding: 10px; border: 1px solid #ddd;"><span style="font-weight: 600; color: ${item.type.includes('ចុះឈ្មោះ') ? '#27ae60' : '#2980b9'};">${item.type}</span></td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">${item.identity}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">${item.details}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">${item.date}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
-                        <button onclick="deleteUserRecord(${index})" style="background-color: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;"><i class="fa-solid fa-trash"></i> លុប</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+        if (records.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #7f8c8d; padding: 15px;">គ្មានទិន្នន័យអ្នកប្រើប្រាស់នៅឡើយទេ</td></tr>`;
+            return;
         }
 
-        window.deleteUserRecord = function(index) {
-            if (confirm('តើអ្នកពិតជាចង់លុបទិន្នន័យប្រវត្តិអ្នកប្រើប្រាស់នេះមែនទេ?')) {
-                let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
-                records.splice(index, 1);
-                localStorage.setItem('farmer_furthur_users', JSON.stringify(records));
-                loadAdminDashboard();
-            }
-        };
+        records.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="padding: 10px; border: 1px solid #ddd;"><span style="font-weight: 600; color: ${item.type.includes('ចុះឈ្មោះ') ? '#27ae60' : '#2980b9'};">${item.type}</span></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${item.identity}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${item.details}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${item.date}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+                    <button onclick="deleteUserRecord(${index})" style="background-color: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;"><i class="fa-solid fa-trash"></i> លុប</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 
-        document.getElementById('clearDataBtn').addEventListener('click', function() {
+    window.deleteUserRecord = function(index) {
+        if (confirm('តើអ្នកពិតជាចង់លុបទិន្នន័យប្រវត្តិអ្នកប្រើប្រាស់នេះមែនទេ?')) {
+            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
+            records.splice(index, 1);
+            localStorage.setItem('farmer_furthur_users', JSON.stringify(records));
+            loadAdminDashboard();
+        }
+    };
+
+    const clearDataBtn = document.getElementById('clearDataBtn');
+    if (clearDataBtn) {
+        clearDataBtn.addEventListener('click', function() {
             if (confirm('តើអ្នកពិតជាចង់លុបព័ត៌មានប្រវត្តិអ្នកប្រើប្រាស់ទាំងអស់មែនទេ?')) {
                 localStorage.removeItem('farmer_furthur_users');
                 loadAdminDashboard();
             }
         });
-    </script>
-</body>
-</html>
+    }
+</script>

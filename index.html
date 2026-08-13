@@ -10,6 +10,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="stylemmm.css">
 </head>
+<style>
+    /* កំណត់ទម្រង់សម្រាប់ features-container */
+.features-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* បង្ខំឱ្យចែកជា ២ ប្រអប់ស្មើគ្នាជានិច្ច */
+    gap: 20px; /* ចន្លោះប្រហោងគ្នារវាងប្រអប់នីមួយៗ */
+    padding: 20px;
+}
+
+/* ការពារកុំឱ្យប្រអប់តូចពេកពេលស្ថិតនៅលើអេក្រង់ទូរស័ព្ទតូចខ្លាំង */
+@media (max-width: 480px) {
+    .features-container {
+        grid-template-columns: repeat(2, 1fr); /* នៅតែរក្សាទម្រង់ ២ ប្រអប់ដដែល */
+        gap: 10px; /* កាត់បន្ថយចន្លោះបន្តិចដើម្បីសមល្មមនឹងអេក្រង់តូច */
+        padding: 10px;
+    }
+    
+    .feature-card {
+        padding: 15px 10px; /* កាត់បន្ថយ Padding ក្នុងប្រអប់បន្តិច */
+    }
+    
+    .feature-card h3 {
+        font-size: 15px; /*ទំហំអក្សរចំណងជើងតូចល្មមសមនឹងទូរស័ព្ទ*/
+    }
+
+    .feature-card p {
+        font-size: 12px; /*ទំហំអក្សរអត្ថបទពណ៌ប្រផេះ*/
+    }
+}
+</style>
 <body>
 
     <!-- Top Bar -->
@@ -28,12 +58,12 @@
         <a href="#" class="logo">
             <i class="fa-solid fa-tractor"></i> Farmer Furthur
         </a>
-        <ul class="nav-links">
-            <li><a href="#">ទំព័រដើម</a></li>
-            <li><a href="#">បច្ចេកវិទ្យាកសិកម្ម</a></li>
-            <li><a href="#">ទីផ្សារកសិផល</a></li>
-            <li><a href="#">បណ្តុះបណ្តាល</a></li>
-            <li><a href="#">ទំនាក់ទំនង</a></li>
+ <ul class="nav-links">
+            <li><a href="#" id="navHome">ទំព័រដើម</a></li>
+            <li><a href="#" id="navTech">បច្ចេកវិទ្យាកសិកម្ម</a></li>
+            <li><a href="#" id="navMarket">ទីផ្សារកសិផល</a></li>
+            <li><a href="#" id="navTraining">បណ្តុះបណ្តាល</a></li>
+            <li><a href="Https://t.me/chan_rithkhmer" target="_blank">ទំនាក់ទំនង</a></li>
         </ul>
         <div class="header-actions" id="headerActions">
             <button class="btn-outline" id="openLoginModal"><i class="fa-solid fa-right-to-bracket"></i> ចូលគណនី</button>
@@ -149,7 +179,6 @@
                             <th style="padding: 10px; border: 1px solid #ddd;">ឈ្មោះ / អ៊ីម៉ែល</th>
                             <th style="padding: 10px; border: 1px solid #ddd;">ព័ត៌មានលម្អិត</th>
                             <th style="padding: 10px; border: 1px solid #ddd;">កាលបរិច្ឆេទ</th>
-                            <th style="padding: 10px; border: 1px solid #ddd;">សកម្មភាព (Admin)</th>
                         </tr>
                     </thead>
                     <tbody id="userDataTableBody">
@@ -230,7 +259,7 @@
         <a href="#" style="font-size: 14px; color: #27ae60; text-decoration: none;">មើលទាំងអស់ <i class="fa-solid fa-arrow-right"></i></a>
     </div>
     <div class="produce-container" id="produceContainer">
-        <!-- Default sample products can also include edit/delete controls if matched -->
+        <!-- Default sample products -->
     </div>
 
     <!-- Footer -->
@@ -249,8 +278,8 @@
             </div>
             <div class="footer-col" style="flex: 1;">
                 <h4>ទំនាក់ទំនង</h4>
-                <p><i class="fa-solid fa-location-dot"></i> រាជធានីភ្នំពេញ, កម្ពុជា</p>
-                <p><i class="fa-solid fa-envelope"></i> info@farmerfurthur.com</p>
+                <p><i class="fa-solid fa-location-dot"></i> ក្រុងសៀមរាប, កម្ពុជា</p>
+                <p><i class="fa-solid fa-envelope"></i> rithc605@gmail.com</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -258,245 +287,223 @@
         </div>
     </footer>
 
-   <!-- JavaScript for Handling Forms, Storage, Admin & Owner Control -->
-<script>
-    const registerModal = document.getElementById('registerModal');
-    const loginModal = document.getElementById('loginModal');
-    const adminAuthModal = document.getElementById('adminAuthModal');
-    const adminDashboardModal = document.getElementById('adminDashboardModal');
-    const postProduceModal = document.getElementById('postProduceModal');
+    <!-- JavaScript for Handling Forms, Storage, Admin & Owner Control -->
+    <script>
+        const registerModal = document.getElementById('registerModal');
+        const loginModal = document.getElementById('loginModal');
+        const adminAuthModal = document.getElementById('adminAuthModal');
+        const adminDashboardModal = document.getElementById('adminDashboardModal');
+        const postProduceModal = document.getElementById('postProduceModal');
 
-    const openRegisterBtn = document.getElementById('openRegisterModal');
-    const openLoginBtn = document.getElementById('openLoginModal');
-    const openAdminModal = document.getElementById('openAdminModal');
+        const openRegisterBtn = document.getElementById('openRegisterModal');
+        const openLoginBtn = document.getElementById('openLoginModal');
+        const openAdminModal = document.getElementById('openAdminModal');
 
-    const closeRegisterBtn = document.getElementById('closeRegisterModal');
-    const closeLoginBtn = document.getElementById('closeLoginModal');
-    const closeAdminAuth = document.getElementById('closeAdminAuth');
-    const closeAdminDashboard = document.getElementById('closeAdminDashboard');
-    const closePostProduceModal = document.getElementById('closePostProduceModal');
+        const closeRegisterBtn = document.getElementById('closeRegisterModal');
+        const closeLoginBtn = document.getElementById('closeLoginModal');
+        const closeAdminAuth = document.getElementById('closeAdminAuth');
+        const closeAdminDashboard = document.getElementById('closeAdminDashboard');
+        const closePostProduceModal = document.getElementById('closePostProduceModal');
 
-    const switchToLogin = document.getElementById('switchToLogin');
-    const switchToRegister = document.getElementById('switchToRegister');
+        const switchToLogin = document.getElementById('switchToLogin');
+        const switchToRegister = document.getElementById('switchToRegister');
 
-    // Helper functions to open/close modals safely with scroll locking
-    function showModal(modal) {
-        if (!modal) return;
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Stop background scroll on mobile
-    }
+        // Check Login Status & Visitor Counter on Page Load
+        window.addEventListener('DOMContentLoaded', () => {
+            trackVisitor();
+            checkUserSession();
+            loadCustomProducts();
+        });
 
-    function hideModal(modal) {
-        if (!modal) return;
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restore scroll
-    }
+        // Visitor & Usage Counter Logic
+        function trackVisitor() {
+            let views = localStorage.getItem('farmer_visitor_count');
+            if (!views) {
+                views = 1250; 
+            } else {
+                views = parseInt(views) + 1;
+            }
+            localStorage.setItem('farmer_visitor_count', views);
+            
+            document.getElementById('visitorCount').innerText = views;
+            const adminVisElem = document.getElementById('adminVisitorCount');
+            if(adminVisElem) adminVisElem.innerText = views;
 
-    // Check Login Status & Visitor Counter on Page Load
-    window.addEventListener('DOMContentLoaded', () => {
-        trackVisitor();
-        checkUserSession();
-        loadCustomProducts();
-    });
-
-    // Visitor & Usage Counter Logic
-    function trackVisitor() {
-        let views = localStorage.getItem('farmer_visitor_count');
-        if (!views) {
-            views = 1250;
-        } else {
-            views = parseInt(views) + 1;
+            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
+            const adminUsrElem = document.getElementById('adminUserCount');
+            if(adminUsrElem) adminUsrElem.innerText = records.length;
         }
-        localStorage.setItem('farmer_visitor_count', views);
-        
-        const visitorElem = document.getElementById('visitorCount');
-        if (visitorElem) visitorElem.innerText = views;
 
-        const adminVisElem = document.getElementById('adminVisitorCount');
-        if (adminVisElem) adminVisElem.innerText = views;
+        // Helper to check if currently logged in as Admin
+        function isAdminLoggedIn() {
+            return localStorage.getItem('farmer_is_admin') === 'true';
+        }
 
-        let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
-        const adminUsrElem = document.getElementById('adminUserCount');
-        if (adminUsrElem) adminUsrElem.innerText = records.length;
-    }
-
-    // Helper to check if currently logged in as Admin
-    function isAdminLoggedIn() {
-        return localStorage.getItem('farmer_is_admin') === 'true';
-    }
-
-    // Modal Open/Close Controls
-    if (openRegisterBtn) openRegisterBtn.addEventListener('click', () => showModal(registerModal));
-    if (openLoginBtn) openLoginBtn.addEventListener('click', () => showModal(loginModal));
-    if (openAdminModal) {
+        // Modal Open/Close Controls
+        if(openRegisterBtn) openRegisterBtn.addEventListener('click', () => registerModal.style.display = 'flex');
+        if(openLoginBtn) openLoginBtn.addEventListener('click', () => loginModal.style.display = 'flex');
         openAdminModal.addEventListener('click', () => {
             if (isAdminLoggedIn()) {
                 loadAdminDashboard();
-                showModal(adminDashboardModal);
+                adminDashboardModal.style.display = 'flex';
             } else {
-                showModal(adminAuthModal);
+                adminAuthModal.style.display = 'flex';
             }
         });
-    }
 
-    if (closeRegisterBtn) closeRegisterBtn.addEventListener('click', () => hideModal(registerModal));
-    if (closeLoginBtn) closeLoginBtn.addEventListener('click', () => hideModal(loginModal));
-    if (closeAdminAuth) closeAdminAuth.addEventListener('click', () => hideModal(adminAuthModal));
-    if (closeAdminDashboard) closeAdminDashboard.addEventListener('click', () => hideModal(adminDashboardModal));
-    if (closePostProduceModal) closePostProduceModal.addEventListener('click', () => hideModal(postProduceModal));
+        closeRegisterBtn.addEventListener('click', () => registerModal.style.display = 'none');
+        closeLoginBtn.addEventListener('click', () => loginModal.style.display = 'none');
+        closeAdminAuth.addEventListener('click', () => adminAuthModal.style.display = 'none');
+        closeAdminDashboard.addEventListener('click', () => adminDashboardModal.style.display = 'none');
+        closePostProduceModal.addEventListener('click', () => postProduceModal.style.display = 'none');
 
-    if (switchToLogin) {
         switchToLogin.addEventListener('click', (e) => {
             e.preventDefault();
-            hideModal(registerModal);
-            showModal(loginModal);
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
         });
-    }
 
-    if (switchToRegister) {
         switchToRegister.addEventListener('click', (e) => {
             e.preventDefault();
-            hideModal(loginModal);
-            showModal(registerModal);
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
         });
-    }
 
-    // Modal Outside Click / Touch backdrop close
-    window.addEventListener('click', (e) => {
-        if (e.target === registerModal) hideModal(registerModal);
-        if (e.target === loginModal) hideModal(loginModal);
-        if (e.target === adminAuthModal) hideModal(adminAuthModal);
-        if (e.target === adminDashboardModal) hideModal(adminDashboardModal);
-        if (e.target === postProduceModal) hideModal(postProduceModal);
-    });
+        window.addEventListener('click', (e) => {
+            if (e.target === registerModal) registerModal.style.display = 'none';
+            if (e.target === loginModal) loginModal.style.display = 'none';
+            if (e.target === adminAuthModal) adminAuthModal.style.display = 'none';
+            if (e.target === adminDashboardModal) adminDashboardModal.style.display = 'none';
+            if (e.target === postProduceModal) postProduceModal.style.display = 'none';
+        });
 
-    // Save Registration Data to LocalStorage
-    const regForm = document.getElementById('registerForm');
-    if (regForm) {
-        regForm.addEventListener('submit', function(e) {
+        // 1. Register Form Logic
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const fullName = document.getElementById('regFullName').value;
-            const email = document.getElementById('regEmail').value;
+            const fullName = document.getElementById('regFullName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            let registeredUsers = JSON.parse(localStorage.getItem('farmer_registered_accounts')) || [];
             
+            // ពិនិត្យមើលថាតើ Email នេះធ្លាប់បានចុះឈ្មោះរួចហើយឬនៅ
+            if (registeredUsers.some(user => user.email === email)) {
+                alert('អ៊ីម៉ែលនេះត្រូវបានប្រើប្រាស់រួចហើយ សូមប្រើប្រាស់អ៊ីម៉ែលផ្សេង!');
+                return;
+            }
+
+            // រក្សាទុកគណនីថ្មីចូលក្នុងមូលដ្ឋានទិន្នន័យគណនី
+            registeredUsers.push({ fullName, email, password });
+            localStorage.setItem('farmer_registered_accounts', JSON.stringify(registeredUsers));
+
+            // រក្សាទុកប្រវត្តិន្ដសកម្មភាពចុះឈ្មោះចូលក្នុង admin log
             const data = {
                 type: 'ចុះឈ្មោះ (Register)',
                 identity: fullName,
-                details: `ភេទ: ${document.getElementById('regGender').value}, មុខរបរ: ${document.getElementById('regProfession').value}, អាស័យដ្ឋាន: ${document.getElementById('regAddress').value}, អ៊ីម៉ែល: ${email}`,
+                details: `ភេទ: ${document.getElementById('regGender').value}, មុខរបរ: ${document.getElementById('regProfession').value}, អ៊ីម៉ែល: ${email}`,
                 date: new Date().toLocaleString()
             };
-
             saveToStorage(data);
-            localStorage.setItem('farmer_current_user', JSON.stringify({ name: fullName, email: email }));
-            
-            alert('ចុះឈ្មោះបានជោគជ័យ!');
-            this.reset();
-            hideModal(registerModal);
-            checkUserSession();
-            loadCustomProducts();
-        });
-    }
 
-    // Save Login Data to LocalStorage
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+            alert('ចុះឈ្មោះបានជោគជ័យ! ឥឡូវនេះអ្នកអាចយក Email និង Password មកចូលប្រើប្រាស់បាន។');
+            this.reset();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex'; // បើកផ្ទាំង Login ស្វ័យប្រវត្តិឱ្យអ្នកប្រើប្រាស់ងាយស្រួលចូល
+        });
+
+        // 2. Login Form Logic (ផ្ទៀងផ្ទាត់គណនីដែលបានចុះឈ្មោះ)
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
             
+            // យកទិន្នន័យគណនីដែលបានចុះឈ្មោះពី localStorage
+            let registeredUsers = JSON.parse(localStorage.getItem('farmer_registered_accounts')) || [];
+
+            // ស្វែងរកថាតើ email និង password នេះត្រឹមត្រូវដែរឬទេ
+            const validUser = registeredUsers.find(user => user.email === email && user.password === password);
+
+            if (!validUser) {
+                alert('អ៊ីម៉ែល (Email) ឬ ពាក្យសម្ងាត់ (Password) មិនត្រឹមត្រូវទេ! សូមពិនិត្យមើលម្ដងទៀត ឬចុះឈ្មោះជាមុនសិន។');
+                return; 
+            }
+
+            // ប្រសិនបើត្រឹមត្រូវ រក្សាទុកសកម្មភាពចូលប្រើប្រាស់ និងកំណត់ Current User
             const data = {
                 type: 'ចូលគណនី (Login)',
-                identity: email,
-                details: 'បានចូលប្រើប្រាស់ប្រព័ន្ធ',
+                identity: validUser.fullName,
+                details: `អ៊ីម៉ែល: ${email} បានចូលប្រើប្រាស់ប្រព័ន្ធដោយជោគជ័យ`,
                 date: new Date().toLocaleString()
             };
 
             saveToStorage(data);
-            localStorage.setItem('farmer_current_user', JSON.stringify({ name: email, email: email }));
+            localStorage.setItem('farmer_current_user', JSON.stringify({ name: validUser.fullName, email: email }));
             
             alert('ចូលគណនីបានជោគជ័យ!');
             this.reset();
-            hideModal(loginModal);
+            loginModal.style.display = 'none';
             checkUserSession();
             loadCustomProducts();
         });
-    }
 
-    function saveToStorage(newData) {
-        let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
-        records.push(newData);
-        localStorage.setItem('farmer_furthur_users', JSON.stringify(records));
-    }
+        function saveToStorage(newData) {
+            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
+            records.push(newData);
+            localStorage.setItem('farmer_furthur_users', JSON.stringify(records));
+        }
 
-    // Check Session and Update Header View
-    function checkUserSession() {
-        const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
-        const headerActions = document.getElementById('headerActions');
-        const isAdmin = isAdminLoggedIn();
+        // Check Session and Update Header View
+        function checkUserSession() {
+            const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
+            const headerActions = document.getElementById('headerActions');
+            const isAdmin = isAdminLoggedIn();
 
-        if (!headerActions) return;
+            let adminLabel = isAdmin ? '<span style="color: #e67e22; font-weight: bold;">(Admin)</span>' : '';
 
-        let adminLabel = isAdmin ? '<span style="color: #e67e22; font-weight: bold;">(Admin)</span>' : '';
+            if (currentUser || isAdmin) {
+                let displayName = currentUser ? currentUser.name : 'អ្នកគ្រប់គ្រង';
+                headerActions.innerHTML = `
+                    <span style="font-weight: 600; color: #27ae60;"><i class="fa-solid fa-user-check"></i> ${displayName} ${adminLabel}</span>
+                    <button class="btn-green" id="openPostModalBtn"><i class="fa-solid fa-plus"></i> បញ្ចូលកសិផល</button>
+                    <button class="btn-danger" id="logoutBtn" style="background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;"><i class="fa-solid fa-right-from-bracket"></i> ចាកចេញ</button>
+                    <button class="btn-admin" id="openAdminModalLoggedIn"><i class="fa-solid fa-lock"></i> Admin Panel</button>
+                `;
 
-        if (currentUser || isAdmin) {
-            let displayName = currentUser ? currentUser.name : 'អ្នកគ្រប់គ្រង';
-            headerActions.innerHTML = `
-                <div class="header-user-wrapper">
-                    <span class="user-name-tag"><i class="fa-solid fa-user-check"></i> ${displayName} ${adminLabel}</span>
-                    <div class="header-btn-group">
-                        <button class="btn-green" id="openPostModalBtn"><i class="fa-solid fa-plus"></i> បញ្ចូលកសិផល</button>
-                        <button class="btn-admin" id="openAdminModalLoggedIn"><i class="fa-solid fa-lock"></i> Admin</button>
-                        <button class="btn-danger" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> ចាកចេញ</button>
-                    </div>
-                </div>
-            `;
-
-            const openPostBtn = document.getElementById('openPostModalBtn');
-            if (openPostBtn) {
-                openPostBtn.addEventListener('click', () => {
-                    const postForm = document.getElementById('postProduceForm');
-                    if (postForm) postForm.reset();
+                document.getElementById('openPostModalBtn').addEventListener('click', () => {
+                    document.getElementById('postProduceForm').reset();
                     document.getElementById('editProduceId').value = '';
                     document.getElementById('produceModalTitle').innerHTML = '<i class="fa-solid fa-camera"></i> បញ្ចូលរូបភាព និងលក់កសិផល';
                     document.getElementById('saveProduceBtn').innerText = 'ដាក់លក់ឥឡូវនេះ';
-                    showModal(postProduceModal);
+                    postProduceModal.style.display = 'flex';
                 });
-            }
 
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', () => {
+                document.getElementById('logoutBtn').addEventListener('click', () => {
                     localStorage.removeItem('farmer_current_user');
                     localStorage.removeItem('farmer_is_admin');
                     window.location.reload();
                 });
-            }
 
-            const openAdminModalLoggedIn = document.getElementById('openAdminModalLoggedIn');
-            if (openAdminModalLoggedIn) {
-                openAdminModalLoggedIn.addEventListener('click', () => {
+                document.getElementById('openAdminModalLoggedIn').addEventListener('click', () => {
                     if (isAdminLoggedIn()) {
                         loadAdminDashboard();
-                        showModal(adminDashboardModal);
+                        adminDashboardModal.style.display = 'flex';
                     } else {
-                        showModal(adminAuthModal);
+                        adminAuthModal.style.display = 'flex';
                     }
                 });
             }
         }
-    }
 
-    // Post or Update Custom Produce
-    const postProduceForm = document.getElementById('postProduceForm');
-    if (postProduceForm) {
-        postProduceForm.addEventListener('submit', function(e) {
+        // Post or Update Custom Produce
+        document.getElementById('postProduceForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
             const isAdmin = isAdminLoggedIn();
 
             if (!currentUser && !isAdmin) {
                 alert('សូមចូលគណនីមុនពេលផុសកសិផល!');
-                hideModal(postProduceModal);
-                showModal(loginModal);
+                postProduceModal.style.display = 'none';
+                loginModal.style.display = 'flex';
                 return;
             }
 
@@ -531,156 +538,232 @@
 
             localStorage.setItem('farmer_custom_products', JSON.stringify(products));
             this.reset();
-            hideModal(postProduceModal);
+            postProduceModal.style.display = 'none';
             loadCustomProducts();
         });
-    }
 
-    // Load Products to Marketplace
-    function loadCustomProducts() {
-        const container = document.getElementById('produceContainer');
-        if (!container) return;
-        container.innerHTML = '';
+        // Load Products to Marketplace
+        function loadCustomProducts() {
+            const container = document.getElementById('produceContainer');
+            container.innerHTML = ''; 
 
-        const defaultProducts = [
-            { id: 'd1', title: 'បន្លែចម្រុះគ្មានជាតិគីមី', farmer: 'កសិដ្ឋាន សុខ សុខុម (បាត់ដំបង)', price: '$1.20 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
-            { id: 'd2', title: 'ការ៉ុត', farmer: 'សហគមន៍កសិកម្ម សៀមរាប', price: '$2.50 / កញ្ចប់', imgUrl: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
-            { id: 'd3', title: 'ផ្លែប៉ោមស្រស់', farmer: 'កសិដ្ឋាន កំពង់ស្ពឺ', price: '$1.80 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
-            { id: 'd4', title: 'ពោតផ្អែមស្រស់ៗ', farmer: 'កសិដ្ឋាន កំពង់ចាម', price: '$1.00 / ៣ផ្លែ', imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7uAmbVGgaZSxouvGF32xpKHU8zMNPszkIYg&s', ownerEmail: 'admin@system.com' }
-        ];
+            const defaultProducts = [
+                { id: 'd1', title: 'បន្លែចម្រុះគ្មានជាតិគីមី', farmer: 'កសិដ្ឋាន សុខ សុខុម (បាត់ដំបង)', price: '$1.20 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
+                { id: 'd2', title: 'ការ៉ុត', farmer: 'សហគមន៍កសិកម្ម សៀមរាប', price: '$2.50 / កញ្ចប់', imgUrl: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
+                { id: 'd3', title: 'ផ្លែប៉ោមស្រស់', farmer: 'កសិដ្ឋាន កំពង់ស្ពឺ', price: '$1.80 / គីឡូ', imgUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80', ownerEmail: 'admin@system.com' },
+                { id: 'd4', title: 'ពោតផ្អែមស្រស់ៗ', farmer: 'កសិដ្ឋាន កំពង់ចាម', price: '$1.00 / ៣ផ្លែ', imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7uAmbVGgaZSxouvGF32xpKHU8zMNPszkIYg&s', ownerEmail: 'admin@system.com' }
+            ];
 
-        let customProducts = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
-        let allProducts = [...customProducts, ...defaultProducts];
+            let customProducts = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
+            let allProducts = [...customProducts, ...defaultProducts];
 
-        const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
-        const isAdmin = isAdminLoggedIn();
+            const currentUser = JSON.parse(localStorage.getItem('farmer_current_user'));
+            const isAdmin = isAdminLoggedIn();
 
-        allProducts.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'produce-card';
-            
-            let actionBtnsHtml = '';
-            if ((currentUser && currentUser.email === item.ownerEmail) || isAdmin) {
-                actionBtnsHtml = `
-                    <div style="margin-top: 8px; display: flex; gap: 5px;">
-                        <button onclick="editProduct('${item.id}')" style="background-color: #f39c12; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; flex: 1;"><i class="fa-solid fa-pen"></i> កែប្រែ</button>
-                        <button onclick="deleteProduct('${item.id}')" style="background-color: #e74c3c; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; flex: 1;"><i class="fa-solid fa-trash"></i> លុប</button>
+            allProducts.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'produce-card';
+                
+                let actionBtnsHtml = '';
+                if ((currentUser && currentUser.email === item.ownerEmail) || isAdmin) {
+                    actionBtnsHtml = `
+                        <div style="margin-top: 8px; display: flex; gap: 5px;">
+                            <button onclick="editProduct('${item.id}')" style="background-color: #f39c12; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;"><i class="fa-solid fa-pen"></i> កែប្រែ</button>
+                            <button onclick="deleteProduct('${item.id}')" style="background-color: #e74c3c; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;"><i class="fa-solid fa-trash"></i> លុប</button>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <img src="${item.imgUrl}" class="produce-img" alt="Produce">
+                    <div class="produce-info">
+                        <div class="produce-name">${item.title}</div>
+                        <div class="farmer-name">${item.farmer}</div>
+                        <div class="price-row">
+                            <span class="produce-price">${item.price}</span>
+                            <button class="order-btn">កុម្ម៉ង់ទិញ</button>
+                        </div>
+                        ${actionBtnsHtml}
                     </div>
                 `;
-            }
-
-            card.innerHTML = `
-                <img src="${item.imgUrl}" class="produce-img" alt="Produce">
-                <div class="produce-info">
-                    <div class="produce-name">${item.title}</div>
-                    <div class="farmer-name">${item.farmer}</div>
-                    <div class="price-row">
-                        <span class="produce-price">${item.price}</span>
-                        <button class="order-btn">កុម្ម៉ង់ទិញ</button>
-                    </div>
-                    ${actionBtnsHtml}
-                </div>
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    window.editProduct = function(id) {
-        let products = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
-        const item = products.find(p => p.id === id);
-        if (item) {
-            document.getElementById('editProduceId').value = item.id;
-            document.getElementById('produceTitle').value = item.title;
-            document.getElementById('produceFarmer').value = item.farmer;
-            document.getElementById('producePrice').value = item.price;
-            document.getElementById('produceImgUrl').value = item.imgUrl;
-
-            document.getElementById('produceModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> កែប្រែព័ត៌មានកសិផល';
-            document.getElementById('saveProduceBtn').innerText = 'រក្សាទុកការកែប្រែ';
-            showModal(postProduceModal);
-        } else {
-            alert('មុខទំនិញដើម (Default) មិនអាចកែប្រែបានទេ ប៉ុន្តែលោកអ្នកអាចផុសទំនិញថ្មីបាន!');
+                container.appendChild(card);
+            });
         }
-    };
 
-    window.deleteProduct = function(id) {
-        if (confirm('តើអ្នកពិតជាចង់លុបកសិផលនេះមែនទេ?')) {
+        window.editProduct = function(id) {
             let products = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
-            products = products.filter(item => item.id !== id);
-            localStorage.setItem('farmer_custom_products', JSON.stringify(products));
-            loadCustomProducts();
-        }
-    };
+            const item = products.find(p => p.id === id);
+            if (item) {
+                document.getElementById('editProduceId').value = item.id;
+                document.getElementById('produceTitle').value = item.title;
+                document.getElementById('produceFarmer').value = item.farmer;
+                document.getElementById('producePrice').value = item.price;
+                document.getElementById('produceImgUrl').value = item.imgUrl;
 
-    // Admin PIN Verification
-    const adminAuthForm = document.getElementById('adminAuthForm');
-    if (adminAuthForm) {
-        adminAuthForm.addEventListener('submit', function(e) {
+                document.getElementById('produceModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> កែប្រែព័ត៌មានកសិផល';
+                document.getElementById('saveProduceBtn').innerText = 'រក្សាទុកការកែប្រែ';
+                postProduceModal.style.display = 'flex';
+            } else {
+                alert('មុខទំនិញដើម (Default) មិនអាចកែប្រែបានទេ ប៉ុន្តែលោកអ្នកអាចផុសទំនិញថ្មីបាន!');
+            }
+        };
+
+        window.deleteProduct = function(id) {
+            if (confirm('តើអ្នកពិតជាចង់លុបកសិផលនេះមែនទេ?')) {
+                let products = JSON.parse(localStorage.getItem('farmer_custom_products')) || [];
+                products = products.filter(item => item.id !== id);
+                localStorage.setItem('farmer_custom_products', JSON.stringify(products));
+                loadCustomProducts();
+            }
+        };
+
+        // Admin PIN Verification
+        document.getElementById('adminAuthForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const enteredPin = document.getElementById('adminPin').value;
 
             if (enteredPin === '231229') {
                 localStorage.setItem('farmer_is_admin', 'true');
-                hideModal(adminAuthModal);
+                adminAuthModal.style.display = 'none';
                 document.getElementById('adminPin').value = '';
                 checkUserSession();
                 loadAdminDashboard();
-                showModal(adminDashboardModal);
+                adminDashboardModal.style.display = 'flex';
             } else {
                 alert('លេខសម្ងាត់មិនត្រឹមត្រូវ! សូមព្យាយាមម្តងទៀត។');
             }
         });
+
+        // Load Data into Admin Table & Statistics
+        function loadAdminDashboard() {
+            const tbody = document.getElementById('userDataTableBody');
+            tbody.innerHTML = '';
+            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
+
+            document.getElementById('adminVisitorCount').innerText = localStorage.getItem('farmer_visitor_count') || 0;
+            document.getElementById('adminUserCount').innerText = records.length;
+
+            if (records.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #7f8c8d; padding: 15px;">គ្មានទិន្នន័យអ្នកប្រើប្រាស់នៅឡើយទេ</td></tr>`;
+                return;
+            }
+
+            records.forEach(rec => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="padding: 10px; border: 1px solid #ddd;">${rec.type}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${rec.identity}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${rec.details}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${rec.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Clear All Data
+        document.getElementById('clearDataBtn').addEventListener('click', () => {
+            if (confirm('តើអ្នកពិតជាចង់លុបប្រវត្តិន្ដទិន្នន័យទាំងអស់មែនទេ?')) {
+                localStorage.removeItem('farmer_furthur_users');
+                loadAdminDashboard();
+                alert('បានលុបទិន្នន័យរួចរាល់!');
+            }
+        });
+       // --- មុខងាររុករកទំព័រដោយរលូន (Smooth Scrolling for Nav Links) ---
+    
+    // ១. ពេលចុច "ទំព័រដើម" អូសឡើងលើបំផុត
+    const navLinks = document.querySelectorAll('.nav-links a');
+    if (navLinks.length > 0) {
+        navLinks[0].addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
 
-    // Load Data into Admin Table & Statistics
+    // ២. ពេលចុច "បច្ចេកវិទ្យាកសិកម្ម" អូសទៅកន្លែង "សេវាកម្ម និងដំណោះស្រាយរបស់យើង"
+    const navTech = document.querySelectorAll('.nav-links a')[1];
+    if (navTech) {
+        navTech.addEventListener('click', (e) => {
+            e.preventDefault();
+            const section = document.querySelector('.features-container'); // ឬត្រង់ចំណងជើងសេវាកម្ម
+            if (section) section.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    // ៣. ពេលចុច "ទីផ្សារកសិផល" អូសទៅកន្លែង "កសិផលស្រស់ៗពីកសិដ្ឋាន"
+    const navMarket = document.querySelectorAll('.nav-links a')[2];
+    if (navMarket) {
+        navMarket.addEventListener('click', (e) => {
+            e.preventDefault();
+            const section = document.getElementById('produceContainer');
+            if (section) section.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    // ៤. ពេលចុច "បណ្តុះបណ្តាល" អូសទៅកន្លែង "សេវាកម្ម និងដំណោះស្រាយរបស់យើង"
+    const navTraining = document.querySelectorAll('.nav-links a')[3];
+    if (navTraining) {
+        navTraining.addEventListener('click', (e) => {
+            e.preventDefault();
+            const section = document.querySelector('.features-container');
+            if (section) section.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+
+    // --- Admin Verification & Dashboard Logic ---
+    document.getElementById('adminAuthForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const enteredPin = document.getElementById('adminPin').value;
+
+        if (enteredPin === '231229') {
+            localStorage.setItem('farmer_is_admin', 'true');
+            document.getElementById('adminAuthModal').style.display = 'none';
+            document.getElementById('adminPin').value = '';
+            loadAdminDashboard();
+            adminDashboardModal.style.display = 'flex';
+        } else {
+            alert('លេខសម្ងាត់ Admin ត្រឹមត្រូវ!');
+        }
+    });
+
     function loadAdminDashboard() {
-        const tbody = document.getElementById('userDataTableBody');
-        if (!tbody) return;
-        tbody.innerHTML = '';
+        const visitorCount = localStorage.getItem('farmer_visitor_count') || 1250;
         let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
 
-        const adminVisElem = document.getElementById('adminVisitorCount');
-        if (adminVisElem) adminVisElem.innerText = localStorage.getItem('farmer_visitor_count') || 0;
+        document.getElementById('adminVisitorCount').innerText = visitorCount;
+        document.getElementById('adminUserCount').innerText = records.length;
 
-        const adminUsrElem = document.getElementById('adminUserCount');
-        if (adminUsrElem) adminUsrElem.innerText = records.length;
+        const tbody = document.getElementById('userDataTableBody');
+        tbody.innerHTML = '';
 
         if (records.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #7f8c8d; padding: 15px;">គ្មានទិន្នន័យអ្នកប្រើប្រាស់នៅឡើយទេ</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 15px; color: #7f8c8d;">មិនទាន់មានទិន្នន័យសកម្មភាពនៅឡើយទេ</td></tr>`;
             return;
         }
 
-        records.forEach((item, index) => {
+        records.forEach(item => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td style="padding: 10px; border: 1px solid #ddd;"><span style="font-weight: 600; color: ${item.type.includes('ចុះឈ្មោះ') ? '#27ae60' : '#2980b9'};">${item.type}</span></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${item.type}</td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${item.identity}</td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${item.details}</td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${item.date}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
-                    <button onclick="deleteUserRecord(${index})" style="background-color: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;"><i class="fa-solid fa-trash"></i> លុប</button>
-                </td>
             `;
             tbody.appendChild(tr);
         });
     }
 
-    window.deleteUserRecord = function(index) {
-        if (confirm('តើអ្នកពិតជាចង់លុបទិន្នន័យប្រវត្តិអ្នកប្រើប្រាស់នេះមែនទេ?')) {
-            let records = JSON.parse(localStorage.getItem('farmer_furthur_users')) || [];
-            records.splice(index, 1);
-            localStorage.setItem('farmer_furthur_users', JSON.stringify(records));
-            loadAdminDashboard();
-        }
-    };
-
+    // លុបទិន្នន័យសកម្មភាពទាំងអស់ក្នុង Admin Panel
     const clearDataBtn = document.getElementById('clearDataBtn');
     if (clearDataBtn) {
-        clearDataBtn.addEventListener('click', function() {
-            if (confirm('តើអ្នកពិតជាចង់លុបព័ត៌មានប្រវត្តិអ្នកប្រើប្រាស់ទាំងអស់មែនទេ?')) {
+        clearDataBtn.addEventListener('click', () => {
+            if (confirm('តើអ្នកពិតជាចង់លុបទិន្នន័យសកម្មភាពអ្នកប្រើប្រាស់ទាំងអស់មែនទេ?')) {
                 localStorage.removeItem('farmer_furthur_users');
                 loadAdminDashboard();
+                alert('លុបជោគជ័យ!');
             }
         });
-    }
-</script>
+    } 
+    </script>
+</body>
+</html>

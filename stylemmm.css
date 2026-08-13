@@ -224,29 +224,64 @@
             line-height: 1.5;
         }
 
-        /* Produce Marketplace Grid */
-        .produce-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 25px;
-            padding: 0 30px 50px;
-        }
+/* កំណត់ទម្រង់កសិផលជា Grid សម្រាប់កុំព្យូទ័រ */
+.produce-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 0 30px 50px;
+}
 
-        .produce-card {
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #e2e8f0;
-        }
+.produce-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e2e8f0;
+}
 
-        .produce-img {
-            width: 100%;
-            height: 170px;
-            object-fit: cover;
-        }
+.produce-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+/* សម្រាប់អេក្រង់ទូរស័ព្ទដៃ (បង្ហាញ ២ ក្នុង១ជួរ និងកែសម្រួលទំហំរូបភាពឱ្យតូចល្មម) */
+@media screen and (max-width: 768px) {
+    .produce-container {
+        grid-template-columns: repeat(2, 1fr) !important; /* បង្ខំឱ្យបង្ហាញ ២ ក្នុង១ជួរជានិច្ចនៅលើទូរស័ព្ទ */
+        gap: 10px !important;
+        padding: 0 10px 30px !important;
+    }
+
+    .produce-img {
+        height: 110px !important; /* បន្ថយរក្សាទំហំកម្ពស់រូបភាពឱ្យតូចល្មមសមរម្យ */
+    }
+
+    .produce-info {
+        padding: 10px !important;
+        gap: 4px !important;
+    }
+
+    .produce-name {
+        font-size: 13px !important; /* បង្រួមទំហំអត្ថបទបន្តិចដើម្បីកុំឱ្យកកស្ទះ */
+    }
+
+    .farmer-name {
+        font-size: 11px !important;
+    }
+
+    .produce-price {
+        font-size: 14px !important;
+    }
+
+    .order-btn {
+        padding: 5px 8px !important;
+        font-size: 12px !important;
+    }
+}
 
         .produce-info {
             padding: 18px;
@@ -466,97 +501,119 @@
             font-size: 13px;
             color: #95a5a6;
         }
-        /* Base Mobile Responsiveness */
-meta[name="viewport"] {
-  content: "width=device-width, initial-scale=1.0, maximum-scale=1.0";
+        /* រៀបចំទំហំមូលដ្ឋានទូទៅ */
+* {
+    box-sizing: border-box;
 }
 
-/* Marketplace Grid for Mobile */
-#produceContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  padding: 10px;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Kantumruy Pro', sans-serif;
+    overflow-x: hidden; /* ការពារកុំឱ្យមានការអូសផុតអេក្រង់ទៅខាងស្តាំ */
 }
 
-@media (min-width: 600px) {
-  #produceContainer {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
-  }
+/* ធ្វើឱ្យ Header និង Nav បត់បែនតាមទូរស័ព្ទ */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 0;
+    list-style: none;
+}
+
+/* Top Bar Responsive */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 5px 15px;
+    font-size: 13px;
+}
+
+/* Hero Banner Responsive */
+.hero-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+}
+
+.hero-banner img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Features Cards Responsive */
+.features-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px 20px;
+}
+
+.feature-card {
+    flex: 1 1 250px; /* ធានាថាវាធ្លាក់ចុះមកក្រោមបើអេក្រង់តូច */
+}
+
+/* Produce Marketplace Cards Responsive */
+.produce-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px 20px;
+    justify-content: center;
 }
 
 .produce-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
+    flex: 1 1 220px;
+    max-width: 280px;
 }
 
 .produce-img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
 }
 
-.produce-info {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+/* Modal Responsive */
+.modal-content, .admin-modal-content {
+    width: 95% !important;
+    max-width: 600px;
+    margin: 10px auto;
+    padding: 15px !important;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
-/* Responsive Modal Styling */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 12px;
-  box-sizing: border-box;
-}
+/* សម្រាប់អេក្រង់ទូរស័ព្ទតូចៗ (Mobile Screen Media Query) */
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
 
-.modal-content {
-  background: #ffffff;
-  width: 100%;
-  max-width: 500px;
-  max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 8px;
-  padding: 16px;
-  box-sizing: border-box;
-}
+    .nav-links {
+        justify-content: center;
+        margin: 10px 0;
+    }
 
-/* Table Responsive Container */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+    .top-bar {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
 
-/* Header layout fixes for small screens */
-.header-user-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.header-btn-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  width: 100%;
-}
-
-.header-btn-group button {
-  flex: 1 1 auto;
+    .hero-banner {
+        flex-direction: column;
+        text-align: center;
+    }
 }
